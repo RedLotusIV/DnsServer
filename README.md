@@ -30,9 +30,19 @@ make
 
 ## Run
 ```bash
-# default binds to port 53 (requires sudo/root)
-sudo ./dnsserver
+./fakedns
 
-# or use non-root port
-./dnsserver 127.0.0.1 1053
 ```
+
+## Configuration
+Edit `rules/root.zone.txt` to add or modify fake DNS mappings:
+```
+domain.com 1.2.3.4
+example.org 2001:db8::1
+```
+
+## Logging
+Currently logs to stdout/stderr. Future support may include file-based logging under `logs/`.
+
+## License
+MIT License. See LICENSE file (or add your own).
