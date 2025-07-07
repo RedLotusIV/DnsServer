@@ -1,4 +1,4 @@
-TARGET    = fakedns
+TARGET    = dnsserver
 CXX       = g++
 CXXFLAGS  = -std=c++23 -Wall -Wextra -Wpedantic -O2
 

@@ -1,6 +1,6 @@
-# FakeDns
+# DNS Server
 
-A simple non-blocking, epoll-based fake DNS server in C++23. It listens for DNS A and AAAA queries, responds with configured fake IPs, and uses DNS compression pointers for efficiency. (as i was working on a school project called Webserv, i got slightly interested un the idea of a DNS server)
+A simple non-blocking, epoll-based DNS server in C++23. It listens for DNS A and AAAA queries, responds with configured IPs, and uses DNS compression pointers for efficiency. (as i was working on a school project called Webserv, i got slightly interested un the idea of a DNS server)
 ## Features
 - non-blocking UDP server using epoll
 - parses DNS queries (A and AAAA)
@@ -30,19 +30,9 @@ make
 
 ## Run
 ```bash
-./fakedns
+# default binds to port 53 (requires sudo/root)
+sudo ./dnsserver
 
+# or use non-root port
+./dnsserver 127.0.0.1 1053
 ```
-
-## Configuration
-Edit `rules/root.zone.txt` to add or modify fake DNS mappings:
-```
-domain.com 1.2.3.4
-example.org 2001:db8::1
-```
-
-## Logging
-Currently logs to stdout/stderr. Future support may include file-based logging under `logs/`.
-
-## License
-MIT License. See LICENSE file (or add your own).

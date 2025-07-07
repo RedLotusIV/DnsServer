@@ -225,23 +225,21 @@ std::vector<uint8_t> DnsServer::build_dns_response(const char* request_buffer, s
     const auto& questions = parser.get_questions();
     const auto& first_question = questions[0]; // handle first question only
     
-    // Get fake IP for the domain
-    // get fake ip for domain
-    std::string fake_ip = get_fake_ip_for_domain(first_question.qname);
-    if (fake_ip.empty()) {
-        std::cout << "No fake IP configured for domain: " << first_question.qname << std::endl;
+    // get ip for domain
+    std::string ip = get_ip_for_domain(first_question.qname);
+    if (ip.empty()) {
+        std::cout << "No record configured for domain: " << first_question.qname << std::endl;
         return response;
     }
 
-    // Convert IP string to network byte order
     // convert ip string to network byte order
     struct in_addr addr;
-    if (inet_aton(fake_ip.c_str(), &addr) == 0) {
-        std::cerr << "Invalid IP address: " << fake_ip << std::endl;
+    if (inet_aton(ip.c_str(), &addr) == 0) {
+        std::cerr << "Invalid IP address: " << ip << std::endl;
         return response;
     }
     
-    std::cout << "Generating DNS response for " << first_question.qname << " -> " << fake_ip << std::endl;
+    std::cout << "Generating DNS response for " << first_question.qname << " -> " << ip << std::endl;
     
     // 1. Build Response Header (12 bytes)
     DnsHeader response_header;
@@ -344,7 +342,7 @@ std::vector<uint8_t> DnsServer::build_dns_response(const char* request_buffer, s
         if (type_val == 28) {
             // IPv6
             struct in6_addr addr6;
-            if (inet_pton(AF_INET6, fake_ip.c_str(), &addr6) == 1) {
+            if (inet_pton(AF_INET6, ip.c_str(), &addr6) == 1) {
                 memcpy(answer_ptr, &addr6, 16);
             } else {
                 memset(answer_ptr, 0, 16);
@@ -356,32 +354,32 @@ std::vector<uint8_t> DnsServer::build_dns_response(const char* request_buffer, s
     }
     
     std::cout << "Built DNS response (" << response.size() << " bytes) for " 
-              << first_question.qname << " -> " << fake_ip << std::endl;
+              << first_question.qname << " -> " << ip << std::endl;
     
     return response;
 }
 
-std::string DnsServer::get_fake_ip_for_domain(const std::string& domain) {
+std::string DnsServer::get_ip_for_domain(const std::string& domain) {
     // Lookup in member map
-    auto it = fake_ips.find(domain);
-    if (it != fake_ips.end()) {
+    auto it = records.find(domain);
+    if (it != records.end()) {
         return it->second;
     }
     // Check subdomain
-    for (const auto& pair : fake_ips) {
+    for (const auto& pair : records) {
         if (domain.size() > pair.first.size() + 1 &&
             domain.compare(domain.size() - pair.first.size(), pair.first.size(), pair.first) == 0) {
             return pair.second;
         }
     }
-    return "127.0.0.1";
+    return "";
 }
 
 void DnsServer::append_answer_record(std::vector<uint8_t>& response, const std::string& domain, uint32_t ip_address, uint32_t ttl) {
     // This method can be used for more complex response building
     // For now, it's implemented in build_dns_response
     (void)response; (void)domain; (void)ip_address; (void)ttl; // Suppress unused warnings
-}
+} 
 
 // Getters
 std::string DnsServer::get_server_ip() const {
@@ -408,8 +406,8 @@ bool DnsServer::load_zone_file(const std::string& filename) {
     }
     std::string domain, ip;
     while (infile >> domain >> ip) {
-        fake_ips[domain] = ip;
+        records[domain] = ip;
     }
-    std::cout << "Loaded " << fake_ips.size() << " records from " << filename << std::endl;
+    std::cout << "Loaded " << records.size() << " records from " << filename << std::endl;
     return true;
 }

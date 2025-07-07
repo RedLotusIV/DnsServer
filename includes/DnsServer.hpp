@@ -22,7 +22,7 @@ class DnsServer
 		bool is_running;
 		sockaddr_in server_addr;
 		std::vector<epoll_event> events;
-		std::map<std::string, std::string> fake_ips;  // Domain -> IP mapping
+		std::map<std::string, std::string> records;  // domain -> ip mapping
 	public:
 		// constructors and destructor
 		DnsServer() = delete;
@@ -40,7 +40,7 @@ class DnsServer
 		
 		// dns response generation
 		std::vector<uint8_t> build_dns_response(const char* request_buffer, size_t request_size, const DnsParser& parser);
-		std::string get_fake_ip_for_domain(const std::string& domain);
+		std::string get_ip_for_domain(const std::string& domain);
 		void append_answer_record(std::vector<uint8_t>& response, const std::string& domain, uint32_t ip_address, uint32_t ttl = 60);
 		
 		// zone file loading
