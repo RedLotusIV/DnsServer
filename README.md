@@ -1,6 +1,6 @@
 # DnsServer
 
-A simple non-blocking, epoll-based fake DNS server in C++23. It listens for DNS A and AAAA queries, responds with configured fake IPs, and uses DNS compression pointers for efficiency. (as i was working on a school project called Webserv, i got slightly interested un the idea of a DNS server)
+A simple non-blocking, epoll-based DNS server in C++23. It listens for DNS A and AAAA queries, responds with configured IPs, and uses DNS compression pointers for efficiency. (as i was working on a school project called Webserv, i got slightly interested un the idea of a DNS server)
 ## Features
 - non-blocking UDP server using epoll
 - parses DNS queries (A and AAAA)
