@@ -1,0 +1,10 @@
+google.com 142.250.200.238
+facebook.com 1.2.3.5
+youtube.com 1.2.3.6
+twitter.com 1.2.3.7
+instagram.com 1.2.3.8
+tiktok.com 1.2.3.9
+reddit.com 1.2.3.10
+linkedin.com 1.2.3.11
+github.com 1.2.3.12
+stackoverflow.com 1.2.3.13
