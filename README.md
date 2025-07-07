@@ -1,12 +1,12 @@
 # DNS Server
 
-A simple non-blocking, epoll-based DNS server in C++23. It listens for DNS A and AAAA queries, responds with configured IPs, and uses DNS compression pointers for efficiency. (as i was working on a school project called Webserv, i got slightly interested un the idea of a DNS server)
+A simple non-blocking, epoll-based DNS server in C++. It listens for DNS A and AAAA queries, responds with configured IPs, and uses DNS compression pointers for efficiency. (as i was working on a school project called Webserv, i got slightly interested un the idea of a DNS server)
 ## Features
 - non-blocking UDP server using epoll
 - parses DNS queries (A and AAAA)
 - loads domain→IP mappings from `rules/root.zone.txt`
 - generates valid DNS responses with question and answer sections
-- minimal lowercase comments and clean C++23 code
+- minimal lowercase comments
 
 ## Prerequisites
 - Linux with epoll support
@@ -30,7 +30,7 @@ make
 
 ## Run
 ```bash
-./fakedns
+./dnsserver
 
 ```
 

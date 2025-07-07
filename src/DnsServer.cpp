@@ -300,7 +300,6 @@ std::vector<uint8_t> DnsServer::build_dns_response(const char* request_buffer, s
     current_pos = response.size();
     {
         // Prepare record header
-        uint16_t name_ptr = 0xC00C; // pointer to offset 12
         uint16_t type_val = first_question.qtype;  // 1=A, 28=AAAA
         uint16_t class_val = first_question.qclass; // 1=IN
         uint32_t ttl = 60;

@@ -1,6 +1,6 @@
 TARGET    = dnsserver
 CXX       = g++
-CXXFLAGS  = -std=c++23 -Wall -Wextra -Wpedantic -O2
+CXXFLAGS  = -Wall -Wextra -Wpedantic -O2
 
 SRC       = $(wildcard src/*.cpp)
 OBJ       = $(SRC:.cpp=.o)
